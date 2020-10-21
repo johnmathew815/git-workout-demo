@@ -1,0 +1,481 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0"
+  title: "vpc"
+paths:
+  /organisation: {}
+  /organisation/{orgid}: {}
+  /organisation/{orgid}/vpc:
+    get:
+      description: "to get the details and list of VPCs in the organisation"
+      operationId: "organisationOrgidVpcGET"
+      parameters:
+      - name: "username"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "orgid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: ""
+          schema:
+            example:
+              data:
+              - id: "12345"
+                name: "myProductionVpc"
+                region: "us-east-1"
+                cidrBlock: "192.168.1.0/24"
+                internalDns:
+                  dnsServers:
+                  - "8.8.8.8"
+                  - "8.8.8.4"
+                  specialDomains:
+                  - "mydomain.local"
+                  - "mydomain.localdomain"
+                isDefault: false
+                associatedEnvironments:
+                - "eeeeb145-6f79-402d-85fc-8c90905d2490"
+                ownerId: "5555555-6666-7777-8888-99999999999"
+                sharedWith:
+                - "0000000-1111-2222-3333-44444444444"
+                firewallRules:
+                - cidrBlock: "0.0.0.0/0"
+                  protocol: "tcp"
+                  fromPort: 8081
+                  toPort: 8082
+                - cidrBlock: "192.168.1.0/24"
+                  protocol: "tcp"
+                  fromPort: 8091
+                  toPort: 8092
+              total: 1
+          x-amf-mediaType: "application/json"
+        "400":
+          description: ""
+          schema:
+            example:
+              code: "400"
+              message: "bad request"
+          x-amf-mediaType: "application/json"
+        "500":
+          description: ""
+          schema:
+            example:
+              code: "500"
+              message: "internal server error"
+          x-amf-mediaType: "application/json"
+      x-swagger-router-controller: "Default"
+    post:
+      description: "to create a VPC in teh organisation"
+      operationId: "organisationOrgidVpcPOST"
+      parameters:
+      - name: "username"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "orgid"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "generated"
+        required: false
+        schema:
+          $ref: "#/definitions/type"
+        x-amf-mediaType: "application/json"
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: "#/definitions/type_1"
+          x-amf-mediaType: "application/json"
+        "400":
+          description: ""
+          schema:
+            example:
+              code: "400"
+              message: "bad request"
+          x-amf-mediaType: "application/json"
+        "500":
+          description: ""
+          schema:
+            example:
+              code: "500"
+              message: "internal server error"
+          x-amf-mediaType: "application/json"
+      x-swagger-router-controller: "Default"
+    x-amf-description: "various methods to work with the API"
+  /organisation/{orgid}/vpc/{vpcid}:
+    put:
+      description: "edits a VPC"
+      operationId: "organisationOrgidVpcVpcidPUT"
+      parameters:
+      - name: "username"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "orgid"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "vpcid"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "generated"
+        required: false
+        schema:
+          $ref: "#/definitions/type_2"
+        x-amf-mediaType: "application/json"
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: "#/definitions/type_3"
+          x-amf-mediaType: "application/json"
+        "400":
+          description: ""
+          schema:
+            example:
+              code: "400"
+              message: "bad request"
+          x-amf-mediaType: "application/json"
+        "500":
+          description: ""
+          schema:
+            example:
+              code: "500"
+              message: "internal server error"
+          x-amf-mediaType: "application/json"
+      x-swagger-router-controller: "Default"
+    delete:
+      description: "delete a vpc from the organistion"
+      operationId: "organisationOrgidVpcVpcidDELETE"
+      parameters:
+      - name: "username"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "orgid"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "vpcid"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: ""
+          schema:
+            example:
+              message: "vpc deleted successfully"
+          x-amf-mediaType: "application/json"
+        "400":
+          description: ""
+          schema:
+            example:
+              code: "400"
+              message: "bad request"
+          x-amf-mediaType: "application/json"
+        "500":
+          description: ""
+          schema:
+            example:
+              code: "500"
+              message: "internal server error"
+          x-amf-mediaType: "application/json"
+      x-swagger-router-controller: "Default"
+definitions:
+  type:
+    type: "object"
+    required:
+    - "associatedEnvironments"
+    - "cidrBlock"
+    - "firewallRules"
+    - "internalDns"
+    - "isDefault"
+    - "name"
+    - "region"
+    - "sharedWith"
+    properties:
+      name:
+        type: "string"
+      region:
+        type: "string"
+      cidrBlock:
+        type: "string"
+      internalDns:
+        $ref: "#/definitions/type_internalDns"
+      isDefault:
+        type: "boolean"
+        default: false
+      associatedEnvironments:
+        type: "array"
+        items:
+          type: "string"
+      sharedWith:
+        type: "array"
+        items:
+          type: "string"
+      firewallRules:
+        type: "array"
+        items:
+          $ref: "#/definitions/type_firewallRules"
+    example:
+      name: "myProductionVpc"
+      region: "us-east-1"
+      cidrBlock: "192.168.1.0/24"
+      internalDns:
+        dnsServers:
+        - "8.8.8.8"
+        - "8.8.8.4"
+        specialDomains:
+        - "mydomain.local"
+        - "mydomain.localdomain"
+      isDefault: false
+      associatedEnvironments:
+      - "eeeeb145-6f79-402d-85fc-8c90905d2490"
+      sharedWith:
+      - "0000000-1111-2222-3333-44444444444"
+      firewallRules:
+      - cidrBlock: "0.0.0.0/0"
+        protocol: "tcp"
+        fromPort: 8081
+        toPort: 8082
+      - cidrBlock: "192.168.1.0/24"
+        protocol: "tcp"
+        fromPort: 8091
+        toPort: 8092
+    additionalProperties: {}
+  type_1:
+    type: "object"
+    required:
+    - "associatedEnvironments"
+    - "cidrBlock"
+    - "firewallRules"
+    - "id"
+    - "internalDns"
+    - "isDefault"
+    - "name"
+    - "ownerId"
+    - "region"
+    - "sharedWith"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      region:
+        type: "string"
+      cidrBlock:
+        type: "string"
+      internalDns:
+        $ref: "#/definitions/type_internalDns"
+      isDefault:
+        type: "boolean"
+      associatedEnvironments:
+        type: "array"
+        items:
+          type: "string"
+      ownerId:
+        type: "array"
+        items:
+          type: "string"
+      sharedWith:
+        type: "array"
+        items:
+          type: "string"
+      firewallRules:
+        type: "array"
+        items:
+          $ref: "#/definitions/type_firewallRules"
+    example:
+      id: "12345"
+      name: "myProductionVpc"
+      region: "us-east-1"
+      cidrBlock: "192.168.1.0/24"
+      internalDns:
+        dnsServers:
+        - "8.8.8.8"
+        - "8.8.8.4"
+        specialDomains:
+        - "mydomain.local"
+        - "mydomain.localdomain"
+      isDefault: false
+      associatedEnvironments:
+      - "eeeeb145-6f79-402d-85fc-8c90905d2490"
+      ownerId:
+      - "5555555-6666-7777-8888-99999999999"
+      sharedWith:
+      - "0000000-1111-2222-3333-44444444444"
+      firewallRules:
+      - cidrBlock: "0.0.0.0/0"
+        protocol: "tcp"
+        fromPort: 8081
+        toPort: 8082
+      - cidrBlock: "192.168.1.0/24"
+        protocol: "tcp"
+        fromPort: 8091
+        toPort: 8092
+    additionalProperties: {}
+  type_2:
+    type: "object"
+    required:
+    - "associatedEnvironments"
+    - "firewallRules"
+    - "internalDns"
+    - "isDefault"
+    - "name"
+    - "sharedWith"
+    properties:
+      name:
+        type: "string"
+      internalDns:
+        $ref: "#/definitions/type_internalDns"
+      isDefault:
+        type: "boolean"
+        default: false
+      associatedEnvironments:
+        type: "array"
+        items:
+          type: "string"
+      sharedWith:
+        type: "array"
+        items:
+          type: "string"
+      firewallRules:
+        type: "array"
+        items:
+          $ref: "#/definitions/type_firewallRules"
+    example:
+      name: "myProductionVpc"
+      internalDns:
+        dnsServers:
+        - "8.8.8.8"
+        - "8.8.8.4"
+        specialDomains:
+        - "mydomain.local"
+        - "mydomain.localdomain"
+      isDefault: false
+      associatedEnvironments:
+      - "eeeeb145-6f79-402d-85fc-8c90905d2490"
+      sharedWith:
+      - "0000000-1111-2222-3333-44444444444"
+      firewallRules:
+      - cidrBlock: "0.0.0.0/0"
+        protocol: "tcp"
+        fromPort: 8081
+        toPort: 8082
+      - cidrBlock: "192.168.1.0/24"
+        protocol: "tcp"
+        fromPort: 8091
+        toPort: 8092
+    additionalProperties: {}
+  type_3:
+    type: "object"
+    required:
+    - "associatedEnvironments"
+    - "firewallRules"
+    - "internalDns"
+    - "isDefault"
+    - "name"
+    - "sharedWith"
+    properties:
+      name:
+        type: "string"
+      internalDns:
+        $ref: "#/definitions/type_internalDns"
+      isDefault:
+        type: "boolean"
+        default: false
+      associatedEnvironments:
+        type: "array"
+        items:
+          type: "string"
+      sharedWith:
+        type: "array"
+        items:
+          type: "string"
+      firewallRules:
+        type: "array"
+        items:
+          $ref: "#/definitions/type_firewallRules"
+    example:
+      name: "myProductionVpc"
+      internalDns:
+        dnsServers:
+        - "8.8.8.8"
+        - "8.8.8.4"
+        specialDomains:
+        - "mydomain.local"
+        - "mydomain.localdomain"
+      isDefault: false
+      associatedEnvironments:
+      - "eeeeb145-6f79-402d-85fc-8c90905d2490"
+      sharedWith:
+      - "0000000-1111-2222-3333-44444444444"
+      firewallRules:
+      - cidrBlock: "0.0.0.0/0"
+        protocol: "tcp"
+        fromPort: 8081
+        toPort: 8082
+      - cidrBlock: "192.168.1.0/24"
+        protocol: "tcp"
+        fromPort: 8091
+        toPort: 8092
+    additionalProperties: {}
+  type_internalDns:
+    type: "object"
+    required:
+    - "dnsServers"
+    - "specialDomains"
+    properties:
+      dnsServers:
+        type: "array"
+        items:
+          type: "string"
+      specialDomains:
+        type: "array"
+        items:
+          type: "string"
+  type_firewallRules:
+    type: "object"
+    required:
+    - "cidrBlock"
+    - "fromPort"
+    - "protocol"
+    - "toPort"
+    properties:
+      cidrBlock:
+        type: "string"
+      protocol:
+        type: "string"
+        minLength: 3
+        enum:
+        - "tcp"
+        - "udp"
+      fromPort:
+        type: "integer"
+      toPort:
+        type: "integer"
